@@ -10,8 +10,13 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Splunk",
+    "contributors": [
+        {
+          "name": "Patryk Droś"
+        }
+      ],
     "license": "Copyright (c) Splunk Community , 2023",
-    "app_version": "1.0.0",
+    "app_version": "1.0.0-fdse.1",
     "utctime_updated": "2023-01-12T17:16:09.279151Z",
     "package_name": "phantom_filesharemanipulator",
     "main_module": "filesharemanipulator_connector.py",
