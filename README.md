@@ -23,16 +23,17 @@ git push -uf origin main
 * Configure an asset for your app *Apps / TopDesk / Configure New Asset* by providing:
     * IP of your machine server
     * Username and Application Password to authenticate at server
+    * Domain as a optional parameter
 
 ## Usage
 * # Action `get file`
+    * share name -> Share name of service
     * file path -> whole path to the file which we want to download from the server
-    * protocol -> SMB or NFS
 
 * # Action `put file`
+    * share name -> Share name of service
     * path -> Whole path to place where you want to have a file
     * vault id -> Vault ID of file which you want to put from Container (Event)
-    * protocol -> SMB or NFS
 
 ## License
 This project is licensed under [Splunk Pre-Release Software License Agreement](https://gitlab.com/splunk-fdse/phantom-advanced-poc/apps/phtopdesk/-/blob/master/app/LICENSE.md)

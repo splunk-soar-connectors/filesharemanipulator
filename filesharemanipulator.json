@@ -1,5 +1,5 @@
 {
-    "appid": "b05d99ab-b502-41ca-b4b6-7a0e59306505",
+    "appid": "ed94736c-672a-4f6c-b4c7-eb7bcc2465c0",
     "name": "File Share Manipulator",
     "description": "File share manipulator is an application that has the ability to manipulate files on a specific server. After two actions get_file and put_file, the user is able to add a specific file to a specific place, as well as download a desired file from the appropriate place.",
     "type": "network device",
@@ -14,18 +14,19 @@
         {
           "name": "Patryk Droś"
         }
-      ],
+    ],
     "license": "Copyright (c) Splunk Community , 2023",
-    "app_version": "1.0.0-fdse.1",
+    "app_version": "1.0.3",
     "utctime_updated": "2023-01-12T17:16:09.279151Z",
     "package_name": "phantom_filesharemanipulator",
     "main_module": "filesharemanipulator_connector.py",
-    "min_phantom_version": "5.2.1.78411",
+    "min_phantom_version": "5.5.0.108488",
     "app_wizard_version": "1.0.0",
-     "pip3_dependencies": {
-       "pypi": [
-           {"module": "impacket"},
-           {"module": "paramiko"}
+    "pip3_dependencies": {
+        "pypi": [
+            {
+                "module": "impacket"
+            }
         ]
     },
     "configuration": {
@@ -33,19 +34,33 @@
             "data_type": "string",
             "description": "Username",
             "order": 0,
-            "required": true
+            "required": true,
+            "name": "username",
+            "id": 0
         },
         "password": {
             "data_type": "password",
             "description": "Password",
             "order": 1,
-            "required": true
+            "required": true,
+            "name": "password",
+            "id": 1
         },
         "ip_address": {
             "data_type": "string",
             "description": "IP addres of server with which we want to connect",
             "order": 2,
-            "required": true
+            "required": true,
+            "name": "ip_address",
+            "id": 2
+        },
+        "domain": {
+            "data_type": "string",
+            "description": "Domain of server with which we want to connect",
+            "order": 3,
+            "required": false,
+            "name": "domain",
+            "id": 3
         }
     },
     "actions": [
@@ -68,8 +83,8 @@
             "type": "generic",
             "read_only": true,
             "parameters": {
-                "file_path":{
-                    "description": "whole path to the file which we want to download from the server",
+                "share_name": {
+                    "description": "Share name value",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -77,18 +92,18 @@
                     "value_list": [],
                     "default": "",
                     "order": 0,
-                    "name": "file_path"
+                    "name": "share_name"
                 },
-                "protocol":{
-                    "description": "Type of protocol within we have to do File Share, SMB is as default Windows Server Message block protocol, we can also use NFS for another machines",
+                "file_path": {
+                    "description": "whole path to the file which we want to download from the server",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
                     "contains": [],
                     "value_list": [],
-                    "default": "SMB",
+                    "default": "",
                     "order": 1,
-                    "name": "protocol"
+                    "name": "file_path"
                 }
             },
             "output": [
@@ -141,8 +156,8 @@
             "type": "generic",
             "read_only": true,
             "parameters": {
-                "path":{
-                    "description": "Whole path to place where you want to have a file",
+                "share_name": {
+                    "description": "Share name value",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -150,9 +165,20 @@
                     "value_list": [],
                     "default": "",
                     "order": 0,
+                    "name": "share_name"
+                },
+                "path": {
+                    "description": "Whole path to place where you want to have a file",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [],
+                    "value_list": [],
+                    "default": "/",
+                    "order": 1,
                     "name": "path"
                 },
-                "vault_id":{
+                "vault_id": {
                     "description": "Vault ID of file which you want to put from Container (Event)",
                     "data_type": "string",
                     "required": true,
@@ -160,19 +186,8 @@
                     "contains": [],
                     "value_list": [],
                     "default": "",
-                    "order": 1,
-                    "name": "vault_id"
-                },
-                "protocol":{
-                    "description": "Type of protocol within we have to do File Share, SMB is as default Windows Server Message block protocol, we can also use NFS for another machines",
-                    "data_type": "string",
-                    "required": true,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "SMB",
                     "order": 2,
-                    "name": "protocol"
+                    "name": "vault_id"
                 }
             },
             "output": [
@@ -211,5 +226,11 @@
             ],
             "versions": "EQ(*)"
         }
-    ]
+    ],
+    "custom_made": true,
+    "directory": "filesharemanipulator_ed94736c-672a-4f6c-b4c7-eb7bcc2465c0",
+    "version": 1,
+    "appname": "-",
+    "executable": "spawn3",
+    "disabled": false
 }

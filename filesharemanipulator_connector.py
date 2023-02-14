@@ -16,11 +16,12 @@ from phantom import vault
 # Usage of the consts file is recommended
 # from filesharemanipulator_consts import *
 import os
-import requests
 import json
+import requests
+import traceback
 from bs4 import BeautifulSoup
 
-from client_protocol import SMB, SSH
+from impacket.smbconnection import SMBConnection
 
 
 class RetVal(tuple):
@@ -168,28 +169,27 @@ class FileShareManipulatorConnector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # NOTE: test connectivity does _NOT_ take any parameters
-        # i.e. the param dictionary passed to this handler will be empty.
-        # Also typically it does not add any data into an action_result either.
-        # The status and progress messages are more important.
-
         try:
-            client = SSH(self._ip_address)
-            client.connect(self._username, self._password, mnt_path=None)
+            client = SMBConnection(self._ip_address, self._ip_address)
+            client.login(self._username, self._password, self._domain)
         except:
-            import traceback
             self.save_progress(
                 "Test Connectivity Failed with error: {}".format(traceback.format_exc()))
             return action_result.get_status()
 
-        self.save_progress("Test Connectivity Passed")
+        self.save_progress("Connected - Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_file(self, param):
         file_path = param['file_path']
+        share_name = param['share_name']
         file_name = os.path.basename(file_path)
-        protocol = param['protocol']
-        mnt_path = os.path.dirname(file_path)
+        app_directory = self.app_json.get('directory')
+        app_version = self.app_json.get('app_version')
+        vault_path = os.path.join(f'/splunk_data/apps/{app_directory}/{app_version}', file_name)
+        
+        if file_path[0] == '/':
+            file_path = file_path[1:]
 
         self.save_progress("In action handler for: {0}".format(
             self.get_action_identifier()))
@@ -197,20 +197,20 @@ class FileShareManipulatorConnector(BaseConnector):
 
         try:
 
-            if protocol.lower() == 'smb':
-                client = SMB(self._ip_address)
-            else:
-                client = SSH(self._ip_address)
-
-            client.connect(self._username, self._password, mnt_path=mnt_path)
-            client.get(file_path, file_name)
+            client = SMBConnection(self._ip_address, self._ip_address)
+            client.login(self._username, self._password, self._domain)
+            with open(vault_path, 'wb') as fh:
+                client.getFile(share_name, '\\' + file_path, fh.write)
             client.close()
 
-        except Exception as exc:
-            return action_result.set_status(phantom.APP_ERROR, f'Problem with connection: {exc}')
+        except:
+            return action_result.set_status(phantom.APP_ERROR, f'Occure problem: {traceback.format_exc()}')
 
-        __, __, vault_id = vault.vault_add(
-            container=self._container_id, file_location=file_name, file_name=file_name)
+        succ, msg, vault_id = vault.vault_add(
+            container=self._container_id, file_location=vault_path, file_name=file_name)
+        
+        if succ is False:
+            return action_result.set_status(phantom.APP_ERROR, f'Occure problem: {msg}')
 
         action_result.add_data({'vault_id': vault_id})
 
@@ -219,7 +219,7 @@ class FileShareManipulatorConnector(BaseConnector):
     def _handle_put_file(self, param):
         path = param['path']
         vault_id = param['vault_id']
-        protocol = param['protocol']
+        share_name = param['share_name']
 
         self.save_progress("In action handler for: {0}".format(
             self.get_action_identifier()))
@@ -230,13 +230,12 @@ class FileShareManipulatorConnector(BaseConnector):
 
         try:
 
-            if protocol.lower() == 'smb':
-                client = SMB(self._ip_address)
-            else:
-                client = SSH(self._ip_address)
+            client = SMBConnection(self._ip_address, self._ip_address)
+            client.login(self._username, self._password, self._domain)
+            with open(info[0]['path'], 'rb') as fh:
+                client.putFile(share_name, os.path.join(
+                    path, info[0]['name']), fh.read)
 
-            client.connect(self._username, self._password, mnt_path=path)
-            client.put(path, info)
             client.close()
 
         except Exception as exc:
@@ -250,6 +249,7 @@ class FileShareManipulatorConnector(BaseConnector):
         # Get the action that we are supposed to execute for this App Run
         action_id = self.get_action_identifier()
         self._container_id = self.get_container_id()
+        self.app_json = self.get_app_json()
 
         self.debug_print("action_id", self.get_action_identifier())
 
@@ -284,6 +284,7 @@ class FileShareManipulatorConnector(BaseConnector):
         self._ip_address = config.get('ip_address')
         self._username = config.get('username')
         self._password = config.get('password')
+        self._domain = config.get('domain') if config.get('domain') else ''
 
         return phantom.APP_SUCCESS
 
