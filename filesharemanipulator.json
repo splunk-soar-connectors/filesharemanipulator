@@ -1,7 +1,7 @@
 {
     "appid": "ed94736c-672a-4f6c-b4c7-eb7bcc2465c0",
     "name": "File Share Manipulator",
-    "description": "File share manipulator is an application that has the ability to manipulate files on a specific server.",
+    "description": "File share manipulator is an application that has the ability to manipulate files on a specific server",
     "type": "network device",
     "product_vendor": "Splunk",
     "logo": "logo_filesharemanipulator.svg",
@@ -9,7 +9,7 @@
     "product_name": "Splunk",
     "python_version": "3",
     "product_version_regex": ".*",
-    "publisher": "Splunk",
+    "publisher": "Splunk Community",
     "contributors": [
         {
             "name": "Patryk Dros"
@@ -61,7 +61,7 @@
         {
             "action": "get file",
             "identifier": "get_file",
-            "description": "Get file from the Network share, such action will return vault id number of file ",
+            "description": "Get file from the Network share, such action will return vault id number of file",
             "type": "generic",
             "read_only": true,
             "parameters": {
@@ -72,7 +72,7 @@
                     "order": 0
                 },
                 "file_path": {
-                    "description": "whole path to the file which we want to download from the server",
+                    "description": "Whole path to the file which we want to download from the server",
                     "data_type": "string",
                     "required": true,
                     "order": 1

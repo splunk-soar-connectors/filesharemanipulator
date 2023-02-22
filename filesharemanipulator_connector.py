@@ -262,7 +262,7 @@ class FileShareManipulatorConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_put_file(self, param):
-        path = param['path']
+        path = param.get('path')
         vault_id = param['vault_id']
         share_name = param['share_name']
 
