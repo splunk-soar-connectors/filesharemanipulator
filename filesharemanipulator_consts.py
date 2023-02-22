@@ -1,4 +1,4 @@
-# File: __init__.py
+# File: filesharemanipulator_consts.py
 #
 # Copyright (c) 2023 Splunk Inc.
 #
@@ -12,3 +12,8 @@
 # the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
+
+FILESHAREMANIPULATOR_SUCCESS_TEST_CONNECTIVITY = "Test Connectivity Passed"
+FILESHAREMANIPULATOR_ERROR_TEST_CONNECTIVITY = "Test Connectivity Failed"
+FILESHAREMANIPULATOR_ERROR_MESSAGE_UNAVAILABLE = "Error message unavailable. Please check the asset configuration and|or action parameters"
+FILESHAREMANIPULATOR_DEFAULT_TIMEOUT = 30

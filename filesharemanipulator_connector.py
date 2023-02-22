@@ -1,31 +1,39 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# -----------------------------------------
-# Phantom sample App Connector python file
-# -----------------------------------------
+# File: filesharemanipulator_connector.py
+#
+# Copyright (c) 2023 Splunk Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
 
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+# Usage of the consts file is recommended
+import getpass
+import json
+import os
+
 # Phantom App imports
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-from phantom import vault
-
-# Usage of the consts file is recommended
-# from filesharemanipulator_consts import *
-import os
-import json
 import requests
-import traceback
 from bs4 import BeautifulSoup
-
 from impacket.smbconnection import SMBConnection
+from phantom import vault
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+
+from filesharemanipulator_consts import *
 
 
 class RetVal(tuple):
-
     def __new__(cls, val1, val2=None):
         return tuple.__new__(RetVal, (val1, val2))
 
@@ -38,6 +46,8 @@ class FileShareManipulatorConnector(BaseConnector):
         super(FileShareManipulatorConnector, self).__init__()
 
         self._state = None
+        self._container_id = None
+        self.app_json = None
 
         # Variable to hold a base_url in case the app makes REST calls
         # Do note that the app json defines the asset config, so please
@@ -45,7 +55,7 @@ class FileShareManipulatorConnector(BaseConnector):
         self._base_url = None
 
     def _process_empty_response(self, response, action_result):
-        if response.status_code == 200:
+        if response.status_code == [200, 204]:
             return RetVal(phantom.APP_SUCCESS, {})
 
         return RetVal(
@@ -55,11 +65,13 @@ class FileShareManipulatorConnector(BaseConnector):
         )
 
     def _process_html_response(self, response, action_result):
-        # An html response, treat it like an error
         status_code = response.status_code
 
         try:
             soup = BeautifulSoup(response.text, "html.parser")
+            # Remove the script, style, footer and navigation part from the HTML message
+            for element in soup(["script", "style", "footer", "nav"]):
+                element.extract()
             error_text = soup.text
             split_lines = error_text.split('\n')
             split_lines = [x.strip() for x in split_lines if x.strip()]
@@ -78,10 +90,11 @@ class FileShareManipulatorConnector(BaseConnector):
         try:
             resp_json = r.json()
         except Exception as e:
+            error_message = self._get_error_message_from_exception(e)
             return RetVal(
                 action_result.set_status(
                     phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}".format(
-                        str(e))
+                        error_message)
                 ), None
             )
 
@@ -129,6 +142,35 @@ class FileShareManipulatorConnector(BaseConnector):
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
+    def _dump_error_log(self, error, message="Exception occurred."):
+        self.error_print(message, dump_object=error)
+
+    def _get_error_message_from_exception(self, e):
+        """ This method is used to get appropriate error message from the exception.
+        :param e: Exception object
+        :return: error message
+        """
+
+        error_code = None
+        error_message = FILESHAREMANIPULATOR_ERROR_MESSAGE_UNAVAILABLE
+        self._dump_error_log(e)
+        try:
+            if hasattr(e, "args"):
+                if len(e.args) > 1:
+                    error_code = e.args[0]
+                    error_message = e.args[1]
+                elif len(e.args) == 1:
+                    error_message = e.args[0]
+        except Exception as ex:
+            self._dump_error_log(ex, "Error occurred while fetching exception information")
+
+        if not error_code:
+            error_text = "Error Message: {}".format(error_message)
+        else:
+            error_text = "Error Code: {}. Error Message: {}".format(error_code, error_message)
+
+        return error_text
+
     def _make_rest_call(self, endpoint, action_result, method="get", **kwargs):
         # **kwargs can be any additional parameters that requests.request accepts
 
@@ -146,7 +188,7 @@ class FileShareManipulatorConnector(BaseConnector):
             )
 
         # Create a URL to connect to
-        url = self._base_url + endpoint
+        url = f'{self._base_url}{endpoint}'
 
         try:
             r = request_func(
@@ -156,28 +198,30 @@ class FileShareManipulatorConnector(BaseConnector):
                 **kwargs
             )
         except Exception as e:
+            error_message = self._get_error_message_from_exception(e)
             return RetVal(
                 action_result.set_status(
                     phantom.APP_ERROR, "Error Connecting to server. Details: {0}".format(
-                        str(e))
+                        error_message)
                 ), resp_json
             )
 
         return self._process_response(r, action_result)
 
     def _handle_test_connectivity(self, param):
-        # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         try:
             client = SMBConnection(self._ip_address, self._ip_address)
             client.login(self._username, self._password, self._domain)
-        except:
+        except Exception as e:
+            error_message = self._get_error_message_from_exception(e)
+            self.save_progress(FILESHAREMANIPULATOR_ERROR_TEST_CONNECTIVITY)
             self.save_progress(
-                "Test Connectivity Failed with error: {}".format(traceback.format_exc()))
+                "error: {}".format(error_message))
             return action_result.get_status()
 
-        self.save_progress("Connected - Test Connectivity Passed")
+        self.save_progress(FILESHAREMANIPULATOR_SUCCESS_TEST_CONNECTIVITY)
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_file(self, param):
@@ -187,7 +231,7 @@ class FileShareManipulatorConnector(BaseConnector):
         app_directory = self.app_json.get('directory')
         app_version = self.app_json.get('app_version')
         vault_path = os.path.join(f'/splunk_data/apps/{app_directory}/{app_version}', file_name)
-        
+
         if file_path[0] == '/':
             file_path = file_path[1:]
 
@@ -196,21 +240,22 @@ class FileShareManipulatorConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         try:
-
             client = SMBConnection(self._ip_address, self._ip_address)
             client.login(self._username, self._password, self._domain)
             with open(vault_path, 'wb') as fh:
                 client.getFile(share_name, '\\' + file_path, fh.write)
             client.close()
 
-        except:
-            return action_result.set_status(phantom.APP_ERROR, f'Occure problem: {traceback.format_exc()}')
+        except Exception as e:
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR,
+                                            f'{"Error occurred while connection, Error: "}{error_message}')
 
         succ, msg, vault_id = vault.vault_add(
             container=self._container_id, file_location=vault_path, file_name=file_name)
-        
-        if succ is False:
-            return action_result.set_status(phantom.APP_ERROR, f'Occure problem: {msg}')
+
+        if not succ:
+            return action_result.set_status(phantom.APP_ERROR, f'Error occurred while adding file to vault: {msg}')
 
         action_result.add_data({'vault_id': vault_id})
 
@@ -225,11 +270,10 @@ class FileShareManipulatorConnector(BaseConnector):
             self.get_action_identifier()))
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        __, __, info = vault.vault_info(
+        _, _, info = vault.vault_info(
             vault_id=vault_id, container_id=self._container_id, trace=True)
 
         try:
-
             client = SMBConnection(self._ip_address, self._ip_address)
             client.login(self._username, self._password, self._domain)
             with open(info[0]['path'], 'rb') as fh:
@@ -238,8 +282,10 @@ class FileShareManipulatorConnector(BaseConnector):
 
             client.close()
 
-        except Exception as exc:
-            return action_result.set_status(phantom.APP_ERROR, exc)
+        except Exception as e:
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR,
+                                            f'{"Error occurred while connection, Error: "}{error_message}')
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -248,8 +294,6 @@ class FileShareManipulatorConnector(BaseConnector):
 
         # Get the action that we are supposed to execute for this App Run
         action_id = self.get_action_identifier()
-        self._container_id = self.get_container_id()
-        self.app_json = self.get_app_json()
 
         self.debug_print("action_id", self.get_action_identifier())
 
@@ -268,18 +312,11 @@ class FileShareManipulatorConnector(BaseConnector):
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
         self._state = self.load_state()
+        self._container_id = self.get_container_id()
+        self.app_json = self.get_app_json()
 
         # get the asset config
         config = self.get_config()
-        """
-        # Access values in asset config by the name
-
-        # Required values can be accessed directly
-        required_config_name = config['required_config_name']
-
-        # Optional values should use the .get() function
-        optional_config_name = config.get('optional_config_name')
-        """
 
         self._ip_address = config.get('ip_address')
         self._username = config.get('username')
@@ -302,25 +339,25 @@ def main():
     argparser.add_argument('input_test_json', help='Input Test JSON file')
     argparser.add_argument('-u', '--username', help='username', required=False)
     argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
 
     username = args.username
     password = args.password
+    verify = args.verify
 
     if username is not None and password is None:
-
         # User specified a username but not a password, so ask
-        import getpass
-        password = getpass.getpass("Password: ")
+        password = getpass.getpass("Splunk SOAR Password: ")
 
     if username and password:
         try:
-            login_url = FileShareManipulatorConnector._get_phantom_base_url() + '/login'
+            login_url = BaseConnector._get_phantom_base_url() + 'login'
 
             print("Accessing the Login page")
-            r = requests.get(login_url, verify=False)
+            r = requests.get(login_url, verify=verify, timeout=FILESHAREMANIPULATOR_DEFAULT_TIMEOUT)
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -333,8 +370,8 @@ def main():
             headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=False,
-                               data=data, headers=headers)
+            r2 = requests.post(login_url, verify=verify,
+                               data=data, headers=headers, timeout=FILESHAREMANIPULATOR_DEFAULT_TIMEOUT)
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
