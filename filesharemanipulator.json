@@ -20,7 +20,7 @@
     "utctime_updated": "2023-01-12T17:16:09.279151Z",
     "package_name": "phantom_filesharemanipulator",
     "main_module": "filesharemanipulator_connector.py",
-    "min_phantom_version": "5.4.0",
+    "min_phantom_version": "5.5.0",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "username": {
