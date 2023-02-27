@@ -8,6 +8,7 @@
     "logo_dark": "logo_filesharemanipulator_dark.svg",
     "product_name": "Splunk",
     "python_version": "3",
+    "fips_compliant": false,
     "product_version_regex": ".*",
     "publisher": "Splunk Community",
     "contributors": [
@@ -62,7 +63,7 @@
             "action": "get file",
             "identifier": "get_file",
             "description": "Get file from the Network share, such action will return vault id number of file",
-            "type": "generic",
+            "type": "investigate",
             "read_only": true,
             "parameters": {
                 "share_name": {
