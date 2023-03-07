@@ -63,13 +63,10 @@ specific place, as well as download a desired file from the appropriate place.
 
 ## Usage
 
--   # Action `       get file      `
-
+-   Action `      get file     `
     -   share name -> Share name of service
     -   file path -> whole path to the file which we want to download from the server
-
--   # Action `       put file      `
-
+-   Action `      put file     `
     -   share name -> Share name of service
     -   path -> Whole path to place where you want to have a file
     -   vault id -> Vault ID of file which you want to put from Container (Event)
