@@ -17,7 +17,7 @@
         }
     ],
     "license": "Copyright (c) 2023 Splunk Inc.",
-    "app_version": "1.0.1",
+    "app_version": "1.0.2-fdse-1",
     "utctime_updated": "2023-01-12T17:16:09.279151Z",
     "package_name": "phantom_filesharemanipulator",
     "main_module": "filesharemanipulator_connector.py",
@@ -38,7 +38,7 @@
         },
         "ip_address": {
             "data_type": "string",
-            "description": "IP address of server with which we want to connect",
+            "description": "IP address of server with which we want to connect, can be recognize also as hostname",
             "order": 2,
             "required": true
         },
