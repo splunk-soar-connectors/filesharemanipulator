@@ -229,9 +229,7 @@ class FileShareManipulatorConnector(BaseConnector):
         file_path = param['file_path']
         share_name = param['share_name']
         file_name = os.path.basename(file_path)
-        app_directory = self.app_json.get('directory')
-        app_version = self.app_json.get('app_version')
-        vault_path = os.path.join(f'/splunk_data/apps/{app_directory}/{app_version}', file_name)
+        vault_path = os.path.join(os.getcwd(), file_name)
 
         if file_path[0] == '/':
             file_path = file_path[1:]
