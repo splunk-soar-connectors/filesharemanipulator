@@ -17,7 +17,7 @@
         }
     ],
     "license": "Copyright (c) 2023 Splunk Inc.",
-    "app_version": "1.0.2-fdse-1",
+    "app_version": "1.0.2",
     "utctime_updated": "2023-01-12T17:16:09.279151Z",
     "package_name": "phantom_filesharemanipulator",
     "main_module": "filesharemanipulator_connector.py",
@@ -242,7 +242,7 @@
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py36/cryptography-39.0.1-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py36/cryptography-40.0.1-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
             {
                 "module": "dataclasses",
@@ -278,7 +278,7 @@
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.0.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-23.1.1-py3-none-any.whl"
             },
             {
                 "module": "pyasn1",
@@ -338,7 +338,7 @@
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py36/cryptography-39.0.1-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py36/cryptography-40.0.1-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
             {
                 "module": "dnspython",
@@ -354,7 +354,7 @@
             },
             {
                 "module": "importlib_metadata",
-                "input_file": "wheels/py3/importlib_metadata-6.0.0-py3-none-any.whl"
+                "input_file": "wheels/py3/importlib_metadata-6.1.0-py3-none-any.whl"
             },
             {
                 "module": "itsdangerous",
@@ -370,7 +370,7 @@
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.0.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-23.1.1-py3-none-any.whl"
             },
             {
                 "module": "pyasn1",
@@ -390,7 +390,7 @@
             },
             {
                 "module": "zipp",
-                "input_file": "wheels/py3/zipp-3.14.0-py3-none-any.whl"
+                "input_file": "wheels/py3/zipp-3.15.0-py3-none-any.whl"
             }
         ]
     }
