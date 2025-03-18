@@ -16,7 +16,7 @@
             "name": "Patryk Dros"
         }
     ],
-    "license": "Copyright (c) 2023 Splunk Inc.",
+    "license": "Copyright (c) 2023-2025 Splunk Inc.",
     "app_version": "1.0.2",
     "utctime_updated": "2023-01-12T17:16:09.279151Z",
     "package_name": "phantom_filesharemanipulator",
