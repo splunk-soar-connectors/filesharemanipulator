@@ -210,143 +210,43 @@
             "versions": "EQ(*)"
         }
     ],
-    "pip_dependencies": {
-        "wheel": [
-            {
-                "module": "Flask",
-                "input_file": "wheels/py3/Flask-2.0.3-py3-none-any.whl"
-            },
-            {
-                "module": "Jinja2",
-                "input_file": "wheels/py3/Jinja2-3.0.3-py3-none-any.whl"
-            },
-            {
-                "module": "MarkupSafe",
-                "input_file": "wheels/py36/MarkupSafe-2.0.1-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-            },
-            {
-                "module": "Werkzeug",
-                "input_file": "wheels/py3/Werkzeug-2.0.3-py3-none-any.whl"
-            },
-            {
-                "module": "cffi",
-                "input_file": "wheels/py36/cffi-1.15.1-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-            },
-            {
-                "module": "chardet",
-                "input_file": "wheels/py3/chardet-5.0.0-py3-none-any.whl"
-            },
-            {
-                "module": "click",
-                "input_file": "wheels/py3/click-8.0.4-py3-none-any.whl"
-            },
-            {
-                "module": "cryptography",
-                "input_file": "wheels/py36/cryptography-40.0.1-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-            },
-            {
-                "module": "dataclasses",
-                "input_file": "wheels/py3/dataclasses-0.8-py3-none-any.whl"
-            },
-            {
-                "module": "dnspython",
-                "input_file": "wheels/py3/dnspython-2.2.1-py3-none-any.whl"
-            },
-            {
-                "module": "future",
-                "input_file": "wheels/py3/future-0.18.3-py3-none-any.whl"
-            },
-            {
-                "module": "impacket",
-                "input_file": "wheels/py3/impacket-0.10.0-py3-none-any.whl"
-            },
-            {
-                "module": "importlib_metadata",
-                "input_file": "wheels/py3/importlib_metadata-4.8.3-py3-none-any.whl"
-            },
-            {
-                "module": "itsdangerous",
-                "input_file": "wheels/py3/itsdangerous-2.0.1-py3-none-any.whl"
-            },
-            {
-                "module": "ldap3",
-                "input_file": "wheels/shared/ldap3-2.9.1-py2.py3-none-any.whl"
-            },
-            {
-                "module": "ldapdomaindump",
-                "input_file": "wheels/py3/ldapdomaindump-0.9.4-py3-none-any.whl"
-            },
-            {
-                "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.1.1-py3-none-any.whl"
-            },
-            {
-                "module": "pyasn1",
-                "input_file": "wheels/shared/pyasn1-0.4.8-py2.py3-none-any.whl"
-            },
-            {
-                "module": "pycparser",
-                "input_file": "wheels/shared/pycparser-2.21-py2.py3-none-any.whl"
-            },
-            {
-                "module": "pycryptodomex",
-                "input_file": "wheels/py3/pycryptodomex-3.17-cp35-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-            },
-            {
-                "module": "six",
-                "input_file": "wheels/shared/six-1.16.0-py2.py3-none-any.whl"
-            },
-            {
-                "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.1.1-py3-none-any.whl"
-            },
-            {
-                "module": "zipp",
-                "input_file": "wheels/py3/zipp-3.6.0-py3-none-any.whl"
-            }
-        ]
-    },
     "pip39_dependencies": {
         "wheel": [
             {
-                "module": "Flask",
-                "input_file": "wheels/py3/Flask-2.2.3-py3-none-any.whl"
-            },
-            {
-                "module": "Jinja2",
-                "input_file": "wheels/py3/Jinja2-3.1.2-py3-none-any.whl"
-            },
-            {
                 "module": "MarkupSafe",
-                "input_file": "wheels/py39/MarkupSafe-2.1.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/MarkupSafe-3.0.2-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
-                "module": "Werkzeug",
-                "input_file": "wheels/py3/Werkzeug-2.2.3-py3-none-any.whl"
+                "module": "blinker",
+                "input_file": "wheels/py3/blinker-1.9.0-py3-none-any.whl"
             },
             {
                 "module": "cffi",
-                "input_file": "wheels/py39/cffi-1.15.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/cffi-1.17.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "chardet",
-                "input_file": "wheels/py3/chardet-5.1.0-py3-none-any.whl"
+                "input_file": "wheels/py3/chardet-5.2.0-py3-none-any.whl"
             },
             {
                 "module": "click",
-                "input_file": "wheels/py3/click-8.1.3-py3-none-any.whl"
+                "input_file": "wheels/py3/click-8.1.8-py3-none-any.whl"
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py36/cryptography-40.0.1-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/cryptography-44.0.2-cp39-abi3-manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "dnspython",
-                "input_file": "wheels/py3/dnspython-2.3.0-py3-none-any.whl"
+                "input_file": "wheels/py3/dnspython-2.7.0-py3-none-any.whl"
+            },
+            {
+                "module": "flask",
+                "input_file": "wheels/py3/flask-3.1.0-py3-none-any.whl"
             },
             {
                 "module": "future",
-                "input_file": "wheels/py3/future-0.18.3-py3-none-any.whl"
+                "input_file": "wheels/py3/future-1.0.0-py3-none-any.whl"
             },
             {
                 "module": "impacket",
@@ -354,11 +254,15 @@
             },
             {
                 "module": "importlib_metadata",
-                "input_file": "wheels/py3/importlib_metadata-6.1.0-py3-none-any.whl"
+                "input_file": "wheels/py3/importlib_metadata-8.6.1-py3-none-any.whl"
             },
             {
                 "module": "itsdangerous",
-                "input_file": "wheels/py3/itsdangerous-2.1.2-py3-none-any.whl"
+                "input_file": "wheels/py3/itsdangerous-2.2.0-py3-none-any.whl"
+            },
+            {
+                "module": "jinja2",
+                "input_file": "wheels/py3/jinja2-3.1.6-py3-none-any.whl"
             },
             {
                 "module": "ldap3",
@@ -366,31 +270,115 @@
             },
             {
                 "module": "ldapdomaindump",
-                "input_file": "wheels/py3/ldapdomaindump-0.9.4-py3-none-any.whl"
+                "input_file": "wheels/py3/ldapdomaindump-0.10.0-py3-none-any.whl"
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.1.1-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-25.0.0-py3-none-any.whl"
             },
             {
                 "module": "pyasn1",
-                "input_file": "wheels/shared/pyasn1-0.4.8-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/pyasn1-0.6.1-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
-                "input_file": "wheels/shared/pycparser-2.21-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/pycparser-2.22-py3-none-any.whl"
             },
             {
                 "module": "pycryptodomex",
-                "input_file": "wheels/py3/pycryptodomex-3.17-cp35-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py3/pycryptodomex-3.22.0-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
-                "module": "six",
-                "input_file": "wheels/shared/six-1.16.0-py2.py3-none-any.whl"
+                "module": "typing_extensions",
+                "input_file": "wheels/py3/typing_extensions-4.13.2-py3-none-any.whl"
+            },
+            {
+                "module": "werkzeug",
+                "input_file": "wheels/py3/werkzeug-3.1.3-py3-none-any.whl"
             },
             {
                 "module": "zipp",
-                "input_file": "wheels/py3/zipp-3.15.0-py3-none-any.whl"
+                "input_file": "wheels/py3/zipp-3.21.0-py3-none-any.whl"
+            }
+        ]
+    },
+    "pip313_dependencies": {
+        "wheel": [
+            {
+                "module": "MarkupSafe",
+                "input_file": "wheels/py313/MarkupSafe-3.0.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "blinker",
+                "input_file": "wheels/py3/blinker-1.9.0-py3-none-any.whl"
+            },
+            {
+                "module": "cffi",
+                "input_file": "wheels/py313/cffi-1.17.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/py3/chardet-5.2.0-py3-none-any.whl"
+            },
+            {
+                "module": "click",
+                "input_file": "wheels/py3/click-8.1.8-py3-none-any.whl"
+            },
+            {
+                "module": "cryptography",
+                "input_file": "wheels/py39/cryptography-44.0.2-cp39-abi3-manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "dnspython",
+                "input_file": "wheels/py3/dnspython-2.7.0-py3-none-any.whl"
+            },
+            {
+                "module": "flask",
+                "input_file": "wheels/py3/flask-3.1.0-py3-none-any.whl"
+            },
+            {
+                "module": "future",
+                "input_file": "wheels/py3/future-1.0.0-py3-none-any.whl"
+            },
+            {
+                "module": "impacket",
+                "input_file": "wheels/py3/impacket-0.10.0-py3-none-any.whl"
+            },
+            {
+                "module": "itsdangerous",
+                "input_file": "wheels/py3/itsdangerous-2.2.0-py3-none-any.whl"
+            },
+            {
+                "module": "jinja2",
+                "input_file": "wheels/py3/jinja2-3.1.6-py3-none-any.whl"
+            },
+            {
+                "module": "ldap3",
+                "input_file": "wheels/shared/ldap3-2.9.1-py2.py3-none-any.whl"
+            },
+            {
+                "module": "ldapdomaindump",
+                "input_file": "wheels/py3/ldapdomaindump-0.10.0-py3-none-any.whl"
+            },
+            {
+                "module": "pyOpenSSL",
+                "input_file": "wheels/py3/pyOpenSSL-25.0.0-py3-none-any.whl"
+            },
+            {
+                "module": "pyasn1",
+                "input_file": "wheels/py3/pyasn1-0.6.1-py3-none-any.whl"
+            },
+            {
+                "module": "pycparser",
+                "input_file": "wheels/py3/pycparser-2.22-py3-none-any.whl"
+            },
+            {
+                "module": "pycryptodomex",
+                "input_file": "wheels/py3/pycryptodomex-3.22.0-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "werkzeug",
+                "input_file": "wheels/py3/werkzeug-3.1.3-py3-none-any.whl"
             }
         ]
     }
