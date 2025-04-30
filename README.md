@@ -1,7 +1,7 @@
 # File Share Manipulator
 
 Publisher: Splunk Community \
-Connector Version: 1.0.2 \
+Connector Version: 1.0.3 \
 Product Vendor: Splunk \
 Product Name: Splunk \
 Minimum Product Version: 5.5.0
