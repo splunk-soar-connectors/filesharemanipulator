@@ -20,6 +20,7 @@ import getpass
 import json
 import os
 import sys
+import tempfile
 
 # Phantom App imports
 import phantom.app as phantom
@@ -202,7 +203,7 @@ class FileShareManipulatorConnector(BaseConnector):
         file_path = param["file_path"]
         share_name = param["share_name"]
         file_name = os.path.basename(file_path)
-        vault_path = os.path.join(os.getcwd(), file_name)
+        vault_path = None
 
         if file_path[0] == "/":
             file_path = file_path[1:]
@@ -210,18 +211,31 @@ class FileShareManipulatorConnector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         action_result = self.add_action_result(ActionResult(dict(param)))
 
+        client = None
         try:
             client = SMBConnection(self._ip_address, self._ip_address)
             client.login(self._username, self._password, self._domain)
-            with open(vault_path, "wb") as fh:
+            with tempfile.NamedTemporaryFile(dir=vault.Vault.get_vault_tmp_dir(), delete=False) as fh:
+                vault_path = fh.name
                 client.getFile(share_name, "\\" + file_path, fh.write)
-            client.close()
 
         except Exception as e:
+            if vault_path and os.path.exists(vault_path):
+                os.unlink(vault_path)
             error_message = self._get_error_message_from_exception(e)
             return action_result.set_status(phantom.APP_ERROR, f"{'Error occurred while connection, Error: '}{error_message}")
+        finally:
+            if client:
+                client.close()
 
-        succ, msg, vault_id = vault.vault_add(container=self._container_id, file_location=vault_path, file_name=file_name)
+        try:
+            succ, msg, vault_id = vault.vault_add(container=self._container_id, file_location=vault_path, file_name=file_name)
+        except Exception as e:
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, f"Error occurred while adding file to vault: {error_message}")
+        finally:
+            if vault_path and os.path.exists(vault_path):
+                os.unlink(vault_path)
 
         if not succ:
             return action_result.set_status(phantom.APP_ERROR, f"Error occurred while adding file to vault: {msg}")
