@@ -1,9 +1,9 @@
 # File Share Manipulator
 
-Publisher: Splunk Community \
-Connector Version: 1.0.3 \
-Product Vendor: Splunk \
-Product Name: Splunk \
+Publisher: Splunk Community <br>
+Connector Version: 1.0.3 <br>
+Product Vendor: Splunk <br>
+Product Name: Splunk <br>
 Minimum Product Version: 5.5.0
 
 File share manipulator is an application that has the ability to manipulate files on a specific server
@@ -21,15 +21,15 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[get file](#action-get-file) - Get file from the Network share, such action will return vault id number of file \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[get file](#action-get-file) - Get file from the Network share, such action will return vault id number of file <br>
 [put file](#action-put-file) - Put file to the Network share
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -44,8 +44,8 @@ No Output
 
 Get file from the Network share, such action will return vault id number of file
 
-Type: **investigate** \
-Read only: **True**
+Type: **investigate** <br>
+Read only: **False**
 
 #### Action Parameters
 
@@ -71,7 +71,7 @@ summary.total_objects_successful | numeric | | |
 
 Put file to the Network share
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -100,7 +100,7 @@ ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
